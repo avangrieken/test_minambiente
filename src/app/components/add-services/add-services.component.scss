@@ -1,10 +1,13 @@
 .containerAddServ {
-    display: inline-flex;
-    position: absolute;
-    top: 70vh;
-    background-color: white;
-    left: 70vh;
-    width: auto;
-    height: auto;
-  }
-  
+  display: inline-flex;
+  position: absolute;
+  top: 70vh;
+  background-color: white;
+  left: 70vh;
+  width: auto;
+  height: auto;
+}
+
+.cdk-overlay-container {
+  position: inherit !important;
+}

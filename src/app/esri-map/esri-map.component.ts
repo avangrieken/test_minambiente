@@ -429,14 +429,16 @@ export class EsriMapComponent implements OnInit, OnDestroy {
     if (this.layersList) {
       this.map.layers.forEach((layer: any) => {
         const sourceJSON = layer.sourceJSON;
-        listLayers.push({
-          id: layer.id,
-          name: sourceJSON && sourceJSON.name ? sourceJSON.name : "Gráfico Mapa",
-          url: layer.url,
-          //sublayers: layer.sublayers,
-          layerId: layer.layerId
-          //sourceJSON: layer.sourceJSON
-        });
+        if (sourceJSON && sourceJSON.name) {
+          listLayers.push({
+            id: layer.id,
+            //name: sourceJSON && sourceJSON.name ? sourceJSON.name : "Gráfico Mapa",
+            name: sourceJSON.name,
+            url: layer.url,
+            //sublayers: layer.sublayers,
+            layerId: layer.layerId
+          });
+        }
       });
     }
 
