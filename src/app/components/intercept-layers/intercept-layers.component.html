@@ -1,0 +1,35 @@
+<div class="containerInter">
+    <ng-container>
+        <table cellspacing="1" cellpadding="1" style="width: 100%; margin-top: 10px;">
+            <tr>
+                <td colspan="2" align="center">
+                  Interceptar Capa con gráficos de Mapa.
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <select name="layers1" [(ngModel)]="selectedLayer1">
+                        <option value="-1" selected>-- Interceptar Capa --</option>
+                        <option [value]="layer.url + '/' + layer.layerId" *ngFor="let layer of listLayers">
+                            {{layer.name}}</option>
+                    </select>
+                </td>
+            </tr>
+            <!-- <tr>
+                <td colspan="2" align="center">
+                    <select name="layers2" [(ngModel)]="selectedLayer2">
+                        <option value="-1" selected>-- Interceptar Capa --</option>
+                        <option [value]="layer.url + '/' + layer.layerId" *ngFor="let layer of listLayers">
+                            {{layer.name}}</option>
+                    </select>
+                </td>
+            </tr> -->
+            <tr>
+                <td colspan="1" align="center"><button mat-button color="primary"
+                        (click)="intercept()">Interceptar</button></td>
+                <td colspan="1" align="center"><button mat-button color="danger"
+                        (click)="closeWin()">Cerrar</button></td>
+            </tr>
+        </table>
+    </ng-container>
+</div>

@@ -1,0 +1,17 @@
+/* import the required JSAPI css */
+@import url('https://js.arcgis.com/4.14/esri/css/main.css');
+
+.esri-view {
+  height: 95vh;
+  //height: 75vh;
+}
+
+.mapview {
+  height: 100%;
+  width:100%;
+  overflow: hidden;
+}
+
+.ng-star-inserted {
+  height: 100%
+}

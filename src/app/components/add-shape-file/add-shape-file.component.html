@@ -1,0 +1,18 @@
+<div class="containerShp">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td scope="row"><input type="file" accept=".zip" name="shapeFile" style="width: 350px;" #file></td>
+                <td><button mat-button color="primary" (click)="loadShapeFile()">Cargar Shape</button></td>
+                <td colspan="2">&nbsp;<button mat-button color="primary" (click)="closeWin()">Cerrar</button></td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div *ngIf="mensaje !== ''" style="margin: 10px 0 0 0; font-weight: bold; font-size: 9pt;">
+                        {{mensaje}}
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

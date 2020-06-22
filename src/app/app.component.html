@@ -1,0 +1,16 @@
+<div>
+  <div class="menu">
+    <mat-nav-list>
+      <mat-list-item *ngFor="let item of navItems">
+        <button mat-icon-button (click)="item.event(item)" title="{{item.title}}">
+          <mat-icon>{{item.matIconName}}</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-nav-list>
+  </div>
+
+  <app-esri-map [center]="mapCenter" [basemap]="basemapType" [zoom]="mapZoomLevel" [layersEsri]="listLayersEsri"
+    [layersGeoJSON]="listLayersGeoJSON" [layersWMS]="listLayersWMS" [layersWFS]="listLayersWFS"
+    (mapLoadedEvent)="mapLoadedEvent($event)">
+  </app-esri-map>
+</div>
