@@ -1,3 +1,4 @@
+////// Importamos los componentes que requerimos.
 import { Component } from '@angular/core';
 import { MapService } from './services/map.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,6 +13,10 @@ import { InterceptLayersComponent } from "./components/intercept-layers/intercep
 })
 
 export class AppComponent {
+  /* 
+    Variables locales 
+  */
+
   // Setear Propiedades del mapa
   mapCenter = [-74.1194, 6.7749];
   basemapType = 'hybrid';
@@ -56,17 +61,17 @@ export class AppComponent {
 
   //// Capa GeoJSON
   listLayersGeoJSON = [
-    //'https://opendata.arcgis.com/datasets/15f2dbc999404c1ebc8fc5537b70927f_0.geojson'
+    'https://opendata.arcgis.com/datasets/15f2dbc999404c1ebc8fc5537b70927f_0.geojson'
   ];
 
   //// Capa WMS
   //// Param: ?SERVICE=WMS&VERSION=1.1.0&REQUEST=GetCapabilities
   listLayersWMS = [
-    // {
-    //   url: 'http://mapas.parquesnacionales.gov.co/services/pnn/wms?',
-    //   name: 'departamentos',
-    //   version: '1.1.0'
-    // }
+    {
+      url: 'http://mapas.parquesnacionales.gov.co/services/pnn/wms?',
+      name: 'departamentos',
+      version: '1.1.0'
+    }
   ];
 
   //// Capa WFS
@@ -94,6 +99,7 @@ export class AppComponent {
     _self.openDialogAddServices();
   }
 
+  /// Inicio formulario para agregar servicios Esri
   openDialogAddServices(): void {
     const dialogRef = this.dialog.open(AddServicesComponent, {
       width: '550px',
@@ -111,6 +117,7 @@ export class AppComponent {
     _self.openDialogAddShape();
   }
 
+  /// Inicio formulario para agregar ShapeFile
   openDialogAddShape(): void {
     const dialogRef = this.dialog.open(AddShapeFileComponent, {
       width: '550px',
@@ -128,6 +135,7 @@ export class AppComponent {
     _self.openDialogInterceptLayers();
   }
 
+  /// Inicio formulario para agregar Formulario de Intersección
   openDialogInterceptLayers(): void {
     const dialogRef = this.dialog.open(InterceptLayersComponent, {
       width: 'auto',

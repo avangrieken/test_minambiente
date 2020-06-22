@@ -1,3 +1,4 @@
+////// Importamos los componentes que requerimos.
 import {
   Component,
   OnInit,
@@ -18,13 +19,12 @@ import { MapService, Point } from '../services/map.service';
   styleUrls: ["./esri-map.component.scss"]
 })
 export class EsriMapComponent implements OnInit, OnDestroy {
+  /// Evento Mapa.
   @Output() mapLoadedEvent = new EventEmitter<boolean>();
-
-  // The <div> where we will place the map
+  // Contenedor principal de mapa
   @ViewChild("mapViewNode", { static: true }) private mapViewEl: ElementRef;
-
   /*
-  Variables de la clase
+  Variables locales de la clase
   */
   private _zoom = 10;
   private _center: Array<number> = [0.1278, 51.5074];
@@ -43,6 +43,9 @@ export class EsriMapComponent implements OnInit, OnDestroy {
   graphicsList: any = [];
   graphicsLayer: any;
 
+  /*  
+  VARIABLES DE ENTRADA 
+  */
   get mapLoaded(): boolean {
     return this._loaded;
   }
@@ -110,11 +113,13 @@ export class EsriMapComponent implements OnInit, OnDestroy {
     return this._layersWFS;
   }
 
+  /// Constructor de la clase
   constructor(private mapService: MapService) { }
 
+  /// Inicializa configuración de objeto Mapa.
   async initializeMap() {
     try {
-      // Load the modules for the ArcGIS API for JavaScript
+      // Carga los módulo para ArcGIS API
       const [
         EsriMap,
         EsriMapView,
@@ -161,20 +166,11 @@ export class EsriMapComponent implements OnInit, OnDestroy {
         popup: {
           dockEnabled: true,
           dockOptions: {
-            // Disables the dock button from the popup
             buttonEnabled: false,
-            // Ignore the default sizes that trigger responsive docking
             breakpoint: false
           }
         }
       };
-
-      // const basemapToggle = new BasemapToggle({
-      //   view: mapViewProperties,
-      //   nextBasemap: "topo"
-      // });
-
-      //mapViewProperties.ui.components.map(basemapToggle, "top-right");
 
       /// Cargue de capas personalizadas
       if (this._layersEsri && this._layersEsri.length > 0) {
@@ -191,7 +187,7 @@ export class EsriMapComponent implements OnInit, OnDestroy {
         }
       }
 
-      /// Capa Geojson.
+      /// Cargue Capa Geojson.
       if (this._layersGeoJSON && this._layersGeoJSON.length > 0) {
         for (let index = 0; index < this._layersGeoJSON.length; index++) {
           const layer = this._layersGeoJSON[index];
@@ -204,7 +200,7 @@ export class EsriMapComponent implements OnInit, OnDestroy {
         }
       }
 
-      /// Capa WMS.
+      /// Cargue Capa WMS.
       if (this._layersWMS && this._layersWMS.length > 0) {
         for (let index = 0; index < this._layersWMS.length; index++) {
           const layer = this._layersWMS[index];
@@ -237,7 +233,7 @@ export class EsriMapComponent implements OnInit, OnDestroy {
       //   }
       // }
 
-
+      /// cargue de propiedades de mapa
       this._view = new EsriMapView(mapViewProperties);
 
       // const basemapToggle = new BasemapToggle({
@@ -263,7 +259,7 @@ export class EsriMapComponent implements OnInit, OnDestroy {
       });
       this._view.ui.add(this.layerList, "top-left");
 
-      /// Herramienta de grafico
+      /// Herramienta de gráfico
       this.sketch = new Sketch({
         view: this._view,
         layer: this.graphicsLayer,
@@ -271,6 +267,7 @@ export class EsriMapComponent implements OnInit, OnDestroy {
       });
       this._view.ui.add(this.sketch, "top-right");
 
+      /// Inicializacion WinPOPUP
       this.popup = this._view.popup;
 
       await this._view.when(() => {
@@ -284,21 +281,8 @@ export class EsriMapComponent implements OnInit, OnDestroy {
         this.sketch.on("create", (event: any) => {
           if (event.state === "complete") {
             this.graphicsList.push(event.graphic);
-            //console.log(this.graphicsList)
-            // var attributes = {
-            //   name: "My Graphic",
-            //   type: event.graphic.geometry.type
-            // }
-            // event.graphic.attributes = attributes;
-
-            // var popupTemplate = {
-            //   title: "{name}",
-            //   content: "I am a {type}."
-            // }
-            // event.graphic.popupTemplate = popupTemplate;
           }
         });
-
       });
       return this._view;
     } catch (error) {
@@ -306,16 +290,17 @@ export class EsriMapComponent implements OnInit, OnDestroy {
     }
   }
 
+  /// Cargue configuración inicial de Mapa
   ngOnInit() {
     // Inicializar MapView y retornar una instancia de MapView
     this.initializeMap().then(mapView => {
-      // The map has been initialized
+      // Mapa inicializado
       console.log("mapView listo: ", this._view.ready);
       this._loaded = this._view.ready;
       this.mapLoadedEvent.emit(true);
     });
 
-    /// Subcripcion a servicios
+    /// Subcripción a servicios
     this.mapService.zoomEmitter.subscribe((zoom: number) => {
       console.log('Zoom: ' + zoom);
       this._view.zoom = zoom;
@@ -345,9 +330,9 @@ export class EsriMapComponent implements OnInit, OnDestroy {
         this.intersectLayers(url);
       }
     });
-
   }
 
+  /// Destructor de a clase
   ngOnDestroy() {
     if (this._view) {
       // destroy the map view
@@ -355,6 +340,7 @@ export class EsriMapComponent implements OnInit, OnDestroy {
     }
   }
 
+  /// Agregar servicio Esri a objeto Mapa
   async loadServiceEsri(service: any) {
     if (service && typeof service.url !== 'undefined') {
 
@@ -370,6 +356,7 @@ export class EsriMapComponent implements OnInit, OnDestroy {
     }
   }
 
+  /// Agregar capas a objeto Mapa
   async addLayers(layers: any) {
     if (layers) {
       let fullExtent: any;
@@ -401,8 +388,8 @@ export class EsriMapComponent implements OnInit, OnDestroy {
     }
   }
 
+  /// Cambiar simbologia elemento graficado
   async changeRenderer(layer: any) {
-    //change the default symbol for the feature collection for polygons and points
     var symbol = null;
     const [SimpleRenderer, PictureMarkerSymbol, SimpleFillSymbol, SimpleLineSymbol, Color] = await loadModules([
       "esri/renderers/SimpleRenderer",
@@ -436,6 +423,7 @@ export class EsriMapComponent implements OnInit, OnDestroy {
     }
   }
 
+  /// Obtener lista de capas de mapa
   getListLayers() {
     let listLayers: any = [];
     if (this.layersList) {
@@ -458,49 +446,48 @@ export class EsriMapComponent implements OnInit, OnDestroy {
   /// Interceptar capas de mapa con graficos.
   async intersectLayers(url: string) {
     if (url) {
-      const [geometryEngine, FeatureLayer, Graphic, geometryEngineAsync] = await loadModules([
+      const [geometryEngine, FeatureLayer, Graphic, geometryEngineAsync, QueryTask, Query] = await loadModules([
         "esri/geometry/geometryEngine",
         "esri/layers/FeatureLayer",
         "esri/Graphic",
-        "esri/geometry/geometryEngineAsync"
+        "esri/geometry/geometryEngineAsync",
+        "esri/tasks/QueryTask",
+        "esri/tasks/support/Query"
       ]);
 
-      const featureLayer = new FeatureLayer({
-        url,
-        mode: FeatureLayer.MODE_ONDEMAND,
-        maxAllowableOffset: this.calcOffset()
-      });
+      let queryTask = new QueryTask(url);
+      let query1 = new Query();
+      query1.geometry = this.graphicsList[0].geometry;
+      query1.spatialRelationship = "intersects";
+      query1.returnGeometry = true;
+      query1.outFields = ['*'];
 
-      //console.log(this.calcOffset())
-
-      var query = {
-        outFields: ["*"],
-        returnGeometry: true,
-        where: "1=1"
-      };
-
-      featureLayer.queryFeatures(query).then((result: any) => {
-        // console.log(result.features)
-        // console.log(this.graphicsList[0].geometry)
-
-        let geometrys: any = [];
-
-        result.features.forEach((layer: any) => {
-          geometrys.push(layer.geometry);
+      queryTask.execute(query1).then((results: any) => {
+        let features = results.features;
+        let g1 = [];
+        features.forEach((feature: any) => {
+          var g = new Graphic({
+            geometry: feature.geometry,
+            attributes: feature.attributes,
+            popupTemplate: {
+              title: "",
+              content: "{*}"
+            }
+          });
+          g1.push(g.geometry);
+          //this.graphicsLayer.add(g);
         });
 
-        debugger
+        /// Geometria de grafico.
+        let geometry1 = this.graphicsList[0].geometry;
 
-        console.log(this.graphicsList[0].geometry)
-        console.log(geometrys)
-
-        geometryEngineAsync.intersect(this.graphicsList[0].geometry, geometrys)
+        geometryEngineAsync.intersect(g1, geometry1)
           .then(
             (features: any) => {
-              this.graphicsLayer.removeAll();
+              //this.graphicsLayer.removeAll();
               features.forEach((feature: any) => {
                 var g = new Graphic({
-                  geometry: feature.geometry,
+                  geometry: feature,
                   attributes: feature.attributes,
                   popupTemplate: {
                     title: "",
@@ -512,40 +499,7 @@ export class EsriMapComponent implements OnInit, OnDestroy {
             },
             (err: any) => { console.log(err); }
           );
-
-        // let intersects = geometryEngine.intersect(this.graphicsList[0].geometry, geometrys);
-        // if (intersects) {
-        //   this.graphicsLayer.removeAll();
-        //   result.features.forEach((feature: any) => {
-        //     var g = new Graphic({
-        //       geometry: feature.geometry,
-        //       attributes: feature.attributes,
-        //       popupTemplate: {
-        //         title: "",
-        //         content: "{*}"
-        //       }
-        //     });
-        //     // var g = new Graphic({
-        //     //   geometry: feature.geometry,
-        //     //   attributes: feature.attributes,
-        //     //   symbol: {
-        //     //    type: "simple-marker",
-        //     //     color: [0,0,0],
-        //     //     outline: {
-        //     //      width: 2,
-        //     //      color: [0,255,255],
-        //     //    },
-        //     //     size: "20px"
-        //     //   },
-        //     //   popupTemplate: {
-        //     //    title: "",
-        //     //    content: "{*}"
-        //     //   }
-        //     // });
-        //     this.graphicsLayer.add(g);
-        //   });
-        // }
-      });
+      }, (err: any) => { console.log(err); });
     }
   }
 

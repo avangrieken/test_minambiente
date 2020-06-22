@@ -1,3 +1,4 @@
+////// Importamos los componentes que requerimos.
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MapService } from '../../services/map.service';
@@ -9,13 +10,22 @@ import { MapService } from '../../services/map.service';
 })
 export class AddServicesComponent implements OnInit {
 
+  /* 
+  Variables locales 
+  */
   URL: string = "";
 
+  /// Constructor de la clase
+  /*
+    MapService: Servicio para escuchar eventos de Mapa
+    dialogRef: Ventana de dialogo para formulario
+  */
   constructor(
     private service: MapService,
     public dialogRef: MatDialogRef<AddServicesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
+  /// Cargue configuración inicial
   ngOnInit(): void {
   }
 
