@@ -1,11 +1,5 @@
 <<<<<<< HEAD
-# angular-cli-esri-map
-
-This branch contains a simple but complete application that uses the ArcGIS API for JavaScript, an enterprise geospatial API, and Angular CLI. It uses esri-loader, a small library that helps load ArcGIS JavaScript API modules (v3.x or v4.x) in non-Dojo applications.
-
-To use arcgis-webpack-plugin instead of esri-loader to load the ArcGIS API for JavaScript modules, check out the [`@arcgis-webpack-angular`](https://github.com/Esri/angular-cli-esri-map/tree/arcgis-webpack-angular) branch of this repo.
-
-If you would like to create your own Angular CLI project from scratch and incorporate these components, [create a new Angular CLI project](https://cli.angular.io/) and copy the `src/app/` directory of this repo to your new project. You will need to install `esri-loader` and `@types/arcgis-js-api` manually.
+# test_minambiente
 
 ## Dependencies
 
@@ -21,16 +15,8 @@ If you would like to create your own Angular CLI project from scratch and incorp
 ### Clone or download this repo
 
 ```bash
-  git clone https://github.com/andygup/angular-cli-esri-map.git
+  git clone https://github.com/avangrieken/test_minambiente.git
 ```
-
-### Install dependencies
-
-```bash
-  cd angular-cli-esri-map
-  npm install
-```
-
 ## Working with Angular CLI
 
 ### Run the application locally
