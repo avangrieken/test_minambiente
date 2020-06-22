@@ -455,6 +455,7 @@ export class EsriMapComponent implements OnInit, OnDestroy {
     localStorage.setItem("listLayers", JSON.stringify(listLayers));
   }
 
+  /// Interceptar capas de mapa con graficos.
   async intersectLayers(url: string) {
     if (url) {
       const [geometryEngine, FeatureLayer, Graphic, geometryEngineAsync] = await loadModules([
